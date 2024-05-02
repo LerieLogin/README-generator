@@ -1,6 +1,7 @@
 // TODO: Include packages needed for this application
-import inquirer from 'inquirer'
-import fs from 'fs'
+const inquirer = require('inquirer');
+const fs = require('fs');
+const { generateMarkdown, renderLicenseBadge, renderLicenseLink, renderLicenseSection } = require('../Develop/utils/generateMarkdown.js');
 
 // TODO: Create an array of questions for user input
 const questions = [
@@ -13,11 +14,6 @@ const questions = [
         type: 'input',
         name: 'description',
         message: 'Enter a description:'
-    },
-    {
-        type: 'input',
-        name: 'tableOfContents',
-        message: 'Enter table of contents:'
     },
     {
         type: 'input',
@@ -35,15 +31,10 @@ const questions = [
         message: 'Enter contribution guidelines:'
     },
     {
-        type: 'input',
-        name: 'tests',
-        message: 'Enter test instructions:'
-    },
-    {
         type: 'list',
         name: 'license',
         message: 'Choose a license:',
-        choices: ['MIT', 'GPL', 'None']
+        choices: ['MIT', 'GPL', 'NA']
     }
 ];
 
@@ -57,21 +48,14 @@ const writeToFile = (fileName, content) => {
 
 // TODO: Create a function to initialize app
 const init = async () => {
-    const answrs = await inquirer.prompt(questions)
-
-    while (shouldContinueAddingProjects) {
-        const { wantsToAddAnotherProject } = await inquirer.prompt(continueAddingProjectQuestions)
-        
-        if (wantsToAddAnotherProject) {
-            const projectAnswers = await inquirer.prompt(projectQuestions)
-            projects.push(projectAnswers)
-        } else {
-            shouldContinueAddingProjects = false
-        }
+    try {
+        const answers = await inquirer.prompt(questions);
+        const markdown = generateMarkdown(answers); // Pass answers object to generateMarkdown function
+        writeToFile('./README.md', markdown);
+    } catch (error) {
+        console.error('Error occurred:', error);
     }
-        const readme = generateHtml(generalAnswers, projects)
-        writeHtmlFile(readme)
-        
-}
+};
+
 // Function call to initialize app
 init();
