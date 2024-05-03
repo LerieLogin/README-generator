@@ -45,17 +45,17 @@ function generateMarkdown(data) {
 
   return `# ${title}
 
-${licenseBadge} // Include the license badge here
+  ${licenseBadge}
 
-${licenseSection}
+  ${licenseSection}
 
 ## Description
 
-${description}
+  ${description}
 
 ## Installation
 
-${installation}
+  ${installation}
 
 ## Usage
 
@@ -63,11 +63,11 @@ ${usage}
 
 ## Contributing
 
-${contributing}
+  ${contributing}
 
 ## License
 
-This project is licensed under ${license} License.
+  This project is licensed under ${license} License.
 `;
 }
 
